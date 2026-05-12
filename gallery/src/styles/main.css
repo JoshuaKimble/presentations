@@ -137,6 +137,55 @@ html:fullscreen #app {
   overflow-y: auto;
 }
 
+/* Print / "Save as PDF" — strip gallery chrome and float buttons,
+   keep the doc body itself. The browser print dialog supplies margins,
+   so .content collapses its padding. */
+@media print {
+  .topbar,
+  .footer,
+  .doc-toolbar {
+    display: none !important;
+  }
+
+  .shell {
+    min-height: 0;
+  }
+
+  .content {
+    max-width: none;
+    padding: 0;
+  }
+
+  /* Preserve code-block backgrounds and accent colors when printed */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Don't break inside code blocks, tables, or list items */
+  pre,
+  table,
+  li,
+  blockquote {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Keep headings with the content that follows */
+  h1,
+  h2,
+  h3,
+  h4 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /* Hide header-anchor links — they're noisy in print */
+  .header-anchor {
+    display: none !important;
+  }
+}
+
 /* Shared headline style */
 .headline {
   font-family: var(--font-serif);

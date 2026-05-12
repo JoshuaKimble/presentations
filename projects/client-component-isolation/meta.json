@@ -1,0 +1,15 @@
+{
+  "slug": "client-component-isolation",
+  "title": "Frontend Pattern: Client Component Isolation",
+  "description": "How we handle the \"use client\" boundary in server component trees.",
+  "mode": "doc",
+  "tags": [
+    "frontend",
+    "react",
+    "nextjs",
+    "patterns",
+    "architecture"
+  ],
+  "createdAt": "2026-05-12T15:47:25.488Z",
+  "updatedAt": "2026-05-12T15:47:25.488Z"
+}

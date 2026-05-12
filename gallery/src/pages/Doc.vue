@@ -34,6 +34,19 @@ async function toggleFullscreen() {
   }
 }
 
+function printPdf() {
+  window.print()
+}
+
+const previousTitle = document.title
+
+watch(
+  () => data.value?.meta.title,
+  (title) => {
+    if (title) document.title = title
+  }
+)
+
 onMounted(() => {
   load(route.params.slug as string)
   document.addEventListener('fullscreenchange', syncFullscreen)
@@ -42,6 +55,7 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('fullscreenchange', syncFullscreen)
   if (document.fullscreenElement) document.exitFullscreen()
+  document.title = previousTitle
 })
 
 watch(
@@ -54,34 +68,54 @@ watch(
   <div v-if="loading" class="state">Loading document…</div>
   <div v-else-if="error" class="state error">{{ error }}</div>
   <article v-else-if="data" class="doc" :class="{ 'is-fullscreen': isFullscreen }">
-    <button
-      class="fs-toggle"
-      type="button"
-      :aria-label="isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'"
-      :title="isFullscreen ? 'Exit fullscreen (Esc)' : 'Enter fullscreen'"
-      @click="toggleFullscreen"
-    >
-      <svg v-if="!isFullscreen" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-        <path
-          d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-      <svg v-else viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-        <path
-          d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </button>
+    <div class="doc-toolbar">
+      <button
+        class="doc-btn"
+        type="button"
+        aria-label="Save as PDF"
+        title="Save as PDF"
+        @click="printPdf"
+      >
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <path
+            d="M6 2h9l5 5v15H6z M15 2v5h5 M9 13h6 M9 17h6 M9 9h2"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+      <button
+        class="doc-btn"
+        type="button"
+        :aria-label="isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'"
+        :title="isFullscreen ? 'Exit fullscreen (Esc)' : 'Enter fullscreen'"
+        @click="toggleFullscreen"
+      >
+        <svg v-if="!isFullscreen" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <path
+            d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <svg v-else viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <path
+            d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
     <header class="doc-head">
       <h1 class="headline doc-title">{{ data.meta.title }}</h1>
       <p v-if="data.meta.description" class="doc-desc">
@@ -104,11 +138,16 @@ watch(
   padding: 56px 32px 96px;
 }
 
-.fs-toggle {
+.doc-toolbar {
   position: fixed;
   bottom: 16px;
   right: 16px;
   z-index: 20;
+  display: inline-flex;
+  gap: 6px;
+}
+
+.doc-btn {
   width: 32px;
   height: 32px;
   display: inline-flex;
@@ -123,7 +162,7 @@ watch(
   transition: opacity 0.15s, color 0.15s, border-color 0.15s;
 }
 
-.fs-toggle:hover {
+.doc-btn:hover {
   opacity: 1;
   color: var(--ink);
   border-color: var(--muted);
@@ -168,6 +207,7 @@ watch(
   margin-top: 2em;
   margin-bottom: 0.5em;
   line-height: 1.2;
+  position: relative;
 }
 
 .doc-body :deep(h1) {
@@ -289,10 +329,12 @@ watch(
 }
 
 .doc-body :deep(.header-anchor) {
+  position: absolute;
+  right: 100%;
+  margin-right: 8px;
   color: var(--muted);
   opacity: 0;
   text-decoration: none;
-  margin-right: 8px;
   transition: opacity 0.15s;
 }
 
