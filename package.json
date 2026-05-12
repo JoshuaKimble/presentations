@@ -10,9 +10,7 @@
     "preview": "pnpm --filter @presentations/gallery preview",
     "present": "node scripts/present.mjs",
     "scaffold": "node scripts/new-project.mjs",
-    "export": "node scripts/export.mjs",
-    "install-skills": "node scripts/install-skills.mjs",
-    "install-skills:check": "node scripts/install-skills.mjs --check"
+    "export": "node scripts/export.mjs"
   },
   "devDependencies": {
     "@slidev/cli": "^0.50.0",

@@ -29,7 +29,7 @@ layout: section
 
 - **One repo, many decks** — every project lives under `projects/`
 - **Markdown is the source of truth** — slides _and_ docs
-- **Scaffold by terminal or AI agent** — `pnpm scaffold` or follow `AGENTS.md`
+- **Scaffold by terminal or Claude** — `pnpm scaffold` or `/new-presentation`
 - **PDF + standalone HTML export** — share anywhere
 
 ---

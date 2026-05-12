@@ -25,23 +25,21 @@ presentations/
       doc.md
   themes/
     slidev-theme-leland/   # Custom theme (swap or add more)
-  scripts/                 # Scaffold, present, export, install-skills
-  skills/
-    skills.json            # Skill manifest — registers slash commands
-  AGENTS.md                # Single source of truth for AI workflows
+  scripts/                 # Scaffold, present, export
+  .claude/commands/        # Slash command definitions
+  CLAUDE.md                # Project context for Claude Code
 ```
+
+Only the two demo projects above are tracked in git. Anything else you
+scaffold under `projects/` stays on your machine — it's gitignored by default
+so collaborators don't see each other's drafts.
 
 ## Three ways to start a new presentation
 
-### 1. From your AI coding assistant
+### 1. From Claude Code
 
-Open this folder in your AI agent (Claude Code, Codex, etc.) and ask it to
-**scaffold a new presentation**. The agent will read `AGENTS.md` for the full
-workflow — including how to convert markdown / outlines / freeform notes into
-slides or docs.
-
-In Claude Code there's also a built-in shortcut: `/new-presentation`. You can
-optionally pass it a topic or a path to a source markdown file:
+In Claude Code, run the `/new-presentation` slash command. You can optionally
+pass a topic or a path to a source markdown file:
 
 ```
 /new-presentation Q3 marketing review
@@ -51,6 +49,9 @@ optionally pass it a topic or a path to a source markdown file:
 
 A source file is **copied** into `projects/<slug>/sources/` — the original
 stays exactly where it was.
+
+The full workflow lives in `.claude/commands/new-presentation.md` if you want
+to read or customize it.
 
 ### 2. The CLI scaffolder
 
@@ -84,28 +85,18 @@ The gallery auto-discovers any directory under `projects/` that has a valid
 | `pnpm present <slug>` | Launch a deck directly in Slidev |
 | `pnpm export <slug> --pdf` | Export deck to PDF |
 | `pnpm export <slug> --spa` | Export deck as standalone HTML |
-| `pnpm install-skills` | Regenerate AI slash commands from `skills/skills.json` |
 
-## Adding more slash commands (skills)
+## Adding your own Claude slash commands
 
-`AGENTS.md` is the single source of truth for what AI agents do in this repo.
-Each Claude-Code-style slash command (like `/new-presentation`) is a tiny
-delegate file at `.claude/commands/<name>.md` that points back at a section in
-`AGENTS.md`.
+Each slash command is a single markdown file under `.claude/commands/<name>.md`
+with frontmatter and a workflow body. To add `/refresh-theme`:
 
-To add another skill — say `/refresh-theme`:
+1. Create `.claude/commands/refresh-theme.md`
+2. Add frontmatter: `description` and `argument-hint`
+3. Write the workflow as the body — Claude reads the whole file as the prompt
+4. Commit the file
 
-1. Add a section to `AGENTS.md`: `## Refresh theme workflow` with the
-   instructions.
-2. Add an entry to `skills/skills.json`:
-   ```json
-   { "name": "refresh-theme", "description": "Update the theme tokens and
-     regenerate previews.", "section": "Refresh theme workflow" }
-   ```
-3. Run `pnpm install-skills` — it generates `.claude/commands/refresh-theme.md`.
-4. Commit both files.
-
-Codex picks up new sections in `AGENTS.md` automatically; no extra step.
+The command is available the next time you launch Claude Code in this repo.
 
 ## Themes
 
@@ -126,3 +117,5 @@ and list it in `scripts/lib/util.mjs` so the scaffolder picks it up.
 - Code fences are syntax-highlighted via Shiki (same engine Slidev uses).
 - Frontmatter `title` and `description` are surfaced on the gallery card and at
   the top of the document.
+- Bottom-right of every doc page: a PDF button (opens the print dialog) and a
+  Fullscreen toggle.

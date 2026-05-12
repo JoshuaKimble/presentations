@@ -1,7 +1,7 @@
 # Presentations
 
 Markdown-first presentation workspace — Slidev decks and long-form docs in one
-repo, scaffolded from the terminal or an AI coding agent.
+repo, scaffolded from the terminal or via Claude Code.
 
 ## Highlights
 
@@ -10,10 +10,8 @@ repo, scaffolded from the terminal or an AI coding agent.
 - **Custom Slidev theme** — `leland`: deep green, serif headlines, editorial pacing
 - **Auto-discovered gallery** — drop a folder under `projects/<slug>/`, the
   Vue + Vite gallery picks it up
-- **AI agent workflow** — `AGENTS.md` describes how Claude Code, Codex CLI, or
-  any agent should scaffold and write presentations
-- **AI skill creator** — `pnpm install-skills` turns `AGENTS.md` sections into
-  ready-to-use slash commands for Claude Code (see below)
+- **Claude Code slash command** — `/new-presentation` scaffolds a new deck or
+  doc and writes content from source material you provide
 - **Doc viewer extras** — fullscreen reading mode and "Save as PDF" on every doc
 
 ## Quick start
@@ -42,11 +40,8 @@ presentations/
     new-project.mjs              # Scaffolder (also `pnpm scaffold`)
     present.mjs                  # Wraps `slidev <slug>` (also `pnpm present`)
     export.mjs                   # PDF / standalone HTML export (also `pnpm export`)
-    install-skills.mjs           # Generates slash commands from skills.json + AGENTS.md
-  skills/
-    skills.json                  # Registry of AI slash commands
-  .claude/commands/              # Generated Claude slash command files (committed)
-  AGENTS.md                      # Single source of truth for AI agent workflows
+  .claude/commands/              # Claude Code slash command definitions
+  CLAUDE.md                      # Project context for Claude Code
 ```
 
 Only the two demo projects (`welcome`, `getting-started`) ship with this
@@ -70,11 +65,7 @@ pnpm scaffold --title "Q3 Review" --mode doc --source ~/notes/q3.md
 original stays exactly where it was. Pass a comma-separated list for multiple
 sources.
 
-### From your AI coding assistant
-
-Open the folder in Claude Code, OpenAI Codex CLI, or any agent that reads
-`AGENTS.md`, and ask it to **scaffold a new presentation**. In Claude Code
-there's also a slash command:
+### From Claude Code
 
 ```
 /new-presentation                          # interactive
@@ -83,8 +74,9 @@ there's also a slash command:
 /new-presentation slides from ~/notes/q3.md
 ```
 
-Both Claude and Codex follow the workflow in `AGENTS.md` — see that file for
-the full breakdown.
+The full workflow lives in
+[`.claude/commands/new-presentation.md`](./.claude/commands/new-presentation.md)
+— read or edit it to change how the command behaves.
 
 ## Modes
 
@@ -109,8 +101,6 @@ Doc pages have two floating buttons in the bottom-right:
 | `pnpm present <slug>` | Launch a deck directly in Slidev |
 | `pnpm export <slug> --pdf` | Export deck to PDF |
 | `pnpm export <slug> --spa` | Export deck as a standalone HTML SPA |
-| `pnpm install-skills` | Regenerate `.claude/commands/*.md` from `skills/skills.json` |
-| `pnpm install-skills:check` | Verify generated delegates are in sync (CI-friendly) |
 
 ## Themes
 
@@ -125,33 +115,24 @@ To add another theme, drop a `slidev-theme-<name>` package under `themes/`,
 add it to the `pnpm-workspace.yaml` glob (already wildcarded), and list it in
 `scripts/lib/util.mjs` so the scaffolder offers it.
 
-## AI skill creator
+## Adding a Claude slash command
 
-`AGENTS.md` is the single source of truth for what AI agents do in this repo.
-Each Claude-style slash command — like `/new-presentation` — is a tiny
-generated delegate at `.claude/commands/<name>.md` that points back at an H2
-section in `AGENTS.md`. The `install-skills` script keeps these in sync, so
-adding a new agent workflow is a four-step loop:
+Each slash command is a single markdown file under `.claude/commands/<name>.md`.
+The file is the prompt — Claude reads the whole thing when the command runs.
 
-1. Write the workflow as an H2 section in `AGENTS.md` (this is the prompt
-   the agent will follow)
-2. Register the skill in `skills/skills.json`:
-   ```json
-   {
-     "name": "refresh-theme",
-     "description": "Update the theme tokens and regenerate previews.",
-     "section": "Refresh theme workflow"
-   }
-   ```
-3. Run `pnpm install-skills` — it generates `.claude/commands/refresh-theme.md`
-4. Commit both files
+1. Create `.claude/commands/<name>.md`
+2. Add frontmatter: `description` and (optionally) `argument-hint`
+3. Write the workflow as the body — Claude uses it as the system prompt for
+   the command, with `$ARGUMENTS` interpolated to whatever the user typed
+4. Commit the file
 
-Codex and any other agent that reads `AGENTS.md` natively picks up the new
-section without an extra step. `pnpm install-skills:check` runs in CI to
-catch out-of-sync delegates.
+That's it. No registry, no codegen — Claude Code discovers the file the
+next time you launch it.
 
 ## Further reading
 
-- [`AGENTS.md`](./AGENTS.md) — canonical workflow for AI assistants
+- [`CLAUDE.md`](./CLAUDE.md) — project context loaded into every Claude session
+- [`.claude/commands/new-presentation.md`](./.claude/commands/new-presentation.md)
+  — the canonical example of a slash command
 - `projects/getting-started/doc.md` — long-form orientation (run `pnpm dev`
   and click "Getting Started" in the gallery)

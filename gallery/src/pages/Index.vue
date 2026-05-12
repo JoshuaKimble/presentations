@@ -75,8 +75,7 @@ function formatDate(d?: string): string {
       </button>
     </div>
     <div class="howto">
-      <code>pnpm scaffold</code> or ask your AI assistant to follow
-      <code>AGENTS.md</code>
+      <code>pnpm scaffold</code> or run <code>/new-presentation</code> in Claude Code
     </div>
   </div>
 
@@ -85,8 +84,9 @@ function formatDate(d?: string): string {
   <div v-else-if="filtered.length === 0" class="empty">
     <p class="empty-title">No projects yet.</p>
     <p class="empty-body">
-      Run <code>pnpm scaffold</code> in your terminal, or ask your AI coding
-      assistant to follow <code>AGENTS.md</code> to scaffold your first deck.
+      Run <code>pnpm scaffold</code> in your terminal, or use the
+      <code>/new-presentation</code> slash command in Claude Code to scaffold
+      your first deck.
     </p>
   </div>
 
