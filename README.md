@@ -1,8 +1,20 @@
 # Presentations
 
-A markdown-first presentation workspace: slide decks and long-form documents
-in one repo, with a custom Slidev theme, an auto-discovered project gallery,
-and an AI-assistant workflow defined in [`AGENTS.md`](./AGENTS.md).
+Markdown-first presentation workspace — Slidev decks and long-form docs in one
+repo, scaffolded from the terminal or an AI coding agent.
+
+## Highlights
+
+- **Two modes per project** — slide decks (Slidev) or long-form documents
+  rendered by the gallery (markdown-it + Shiki)
+- **Custom Slidev theme** — `leland`: deep green, serif headlines, editorial pacing
+- **Auto-discovered gallery** — drop a folder under `projects/<slug>/`, the
+  Vue + Vite gallery picks it up
+- **AI agent workflow** — `AGENTS.md` describes how Claude Code, Codex CLI, or
+  any agent should scaffold and write presentations
+- **AI skill creator** — `pnpm install-skills` turns `AGENTS.md` sections into
+  ready-to-use slash commands for Claude Code (see below)
+- **Doc viewer extras** — fullscreen reading mode and "Save as PDF" on every doc
 
 ## Quick start
 
@@ -30,12 +42,16 @@ presentations/
     new-project.mjs              # Scaffolder (also `pnpm scaffold`)
     present.mjs                  # Wraps `slidev <slug>` (also `pnpm present`)
     export.mjs                   # PDF / standalone HTML export (also `pnpm export`)
-    install-skills.mjs           # Regenerates slash command delegates from the manifest
+    install-skills.mjs           # Generates slash commands from skills.json + AGENTS.md
   skills/
     skills.json                  # Registry of AI slash commands
   .claude/commands/              # Generated Claude slash command files (committed)
   AGENTS.md                      # Single source of truth for AI agent workflows
 ```
+
+Only the two demo projects (`welcome`, `getting-started`) ship with this
+repo. Anything else you scaffold under `projects/` stays on your machine —
+it's gitignored by default so collaborators don't see each other's drafts.
 
 ## Two ways to start a presentation
 
@@ -77,6 +93,13 @@ the full breakdown.
 | `slides` | `slides.md` | Slidev | Talks, decks, demos |
 | `doc` | `doc.md` | Gallery (markdown-it + Shiki) | Articles, guides, references |
 
+Doc pages have two floating buttons in the bottom-right:
+
+- **PDF** — opens the print dialog; "Save as PDF" produces a clean,
+  selectable-text export with the doc title as the filename
+- **Fullscreen** — hides the gallery chrome for distraction-free reading
+  (Esc to exit)
+
 ## Common commands
 
 | Command | What it does |
@@ -102,20 +125,30 @@ To add another theme, drop a `slidev-theme-<name>` package under `themes/`,
 add it to the `pnpm-workspace.yaml` glob (already wildcarded), and list it in
 `scripts/lib/util.mjs` so the scaffolder offers it.
 
-## How the AI workflow is wired
+## AI skill creator
 
 `AGENTS.md` is the single source of truth for what AI agents do in this repo.
-Each Claude-style slash command (e.g. `/new-presentation`) is a tiny generated
-delegate at `.claude/commands/<name>.md` that points back at an H2 section in
-`AGENTS.md`. To add another skill:
+Each Claude-style slash command — like `/new-presentation` — is a tiny
+generated delegate at `.claude/commands/<name>.md` that points back at an H2
+section in `AGENTS.md`. The `install-skills` script keeps these in sync, so
+adding a new agent workflow is a four-step loop:
 
-1. Add an H2 section to `AGENTS.md` describing the workflow
-2. Register the skill in `skills/skills.json`
-3. Run `pnpm install-skills`
+1. Write the workflow as an H2 section in `AGENTS.md` (this is the prompt
+   the agent will follow)
+2. Register the skill in `skills/skills.json`:
+   ```json
+   {
+     "name": "refresh-theme",
+     "description": "Update the theme tokens and regenerate previews.",
+     "section": "Refresh theme workflow"
+   }
+   ```
+3. Run `pnpm install-skills` — it generates `.claude/commands/refresh-theme.md`
 4. Commit both files
 
-Codex and other agents that read `AGENTS.md` natively pick up new sections
-without any extra step.
+Codex and any other agent that reads `AGENTS.md` natively picks up the new
+section without an extra step. `pnpm install-skills:check` runs in CI to
+catch out-of-sync delegates.
 
 ## Further reading
 

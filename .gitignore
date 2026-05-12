@@ -13,3 +13,8 @@ exports/
 # Claude Code per-machine local settings (commands/ is committed; settings.local is not)
 .claude/settings.local.json
 .claude/scheduled_tasks.lock
+
+# User presentations stay local — only the two demo projects ship with the repo
+projects/*
+!projects/welcome/
+!projects/getting-started/
