@@ -1,0 +1,15 @@
+node_modules
+.pnpm-store
+dist
+.DS_Store
+*.log
+.vite
+.cache
+.slidev-cache
+exports/
+.env
+.env.local
+
+# Claude Code per-machine local settings (commands/ is committed; settings.local is not)
+.claude/settings.local.json
+.claude/scheduled_tasks.lock

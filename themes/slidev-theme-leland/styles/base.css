@@ -1,0 +1,154 @@
+:root {
+  --leland-green: #0f4d3a;
+  --leland-green-deep: #0a3528;
+  --leland-green-light: #e8f0ec;
+  --leland-ink: #0a0a0a;
+  --leland-text: #1f2421;
+  --leland-muted: #6a7370;
+  --leland-line: #e6e6e3;
+  --leland-bg: #fafaf7;
+  --leland-accent: #c89b3c;
+
+  --slidev-theme-primary: var(--leland-green);
+  --slidev-theme-background: var(--leland-bg);
+  --slidev-theme-text: var(--leland-text);
+}
+
+.slidev-layout {
+  background: var(--leland-bg);
+  color: var(--leland-text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-feature-settings: 'ss01', 'cv02';
+  padding: 3rem 4rem;
+}
+
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3,
+.slidev-layout h4 {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--leland-ink);
+  line-height: 1.05;
+}
+
+.slidev-layout h1 {
+  font-size: 3.5rem;
+  margin: 0 0 1.2rem;
+}
+
+.slidev-layout h2 {
+  font-size: 2.4rem;
+  margin: 0 0 1rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.slidev-layout h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--leland-green);
+}
+
+.slidev-layout h3 {
+  font-size: 1.6rem;
+  margin: 0 0 0.6rem;
+}
+
+.slidev-layout p,
+.slidev-layout li {
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: var(--leland-text);
+}
+
+.slidev-layout strong {
+  color: var(--leland-ink);
+  font-weight: 600;
+}
+
+.slidev-layout a {
+  color: var(--leland-green);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.slidev-layout code:not(pre code) {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--leland-green-light);
+  color: var(--leland-green-deep);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.slidev-layout pre {
+  background: #ffffff !important;
+  border: 1px solid var(--leland-line);
+  border-radius: 8px;
+  padding: 1rem 1.2rem !important;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.slidev-layout blockquote {
+  border-left: 3px solid var(--leland-green);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--leland-muted);
+  font-style: italic;
+}
+
+.slidev-layout ul,
+.slidev-layout ol {
+  padding-left: 1.4rem;
+}
+
+.slidev-layout ul li::marker {
+  color: var(--leland-green);
+}
+
+.slidev-layout table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+.slidev-layout th,
+.slidev-layout td {
+  border-bottom: 1px solid var(--leland-line);
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+}
+
+.slidev-layout th {
+  font-weight: 600;
+  color: var(--leland-ink);
+}
+
+/* Slidev v0.50 bug: closing the Goto dialog (Esc / g) doesn't clear the
+   search text, so its autocomplete list keeps rendering and pokes back
+   into the viewport from above. Hide it whenever the dialog isn't focused. */
+#slidev-goto-dialog:not(:focus-within) .autocomplete-list {
+  display: none;
+}
+
+/* Footer brand mark on every slide */
+.slidev-layout::before {
+  content: 'Leland';
+  position: absolute;
+  bottom: 1rem;
+  right: 1.5rem;
+  font-family: 'Newsreader', serif;
+  font-size: 0.7rem;
+  color: var(--leland-muted);
+  opacity: 0.55;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}

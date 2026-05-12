@@ -1,0 +1,24 @@
+{
+  "name": "slidev-theme-leland",
+  "version": "0.1.0",
+  "description": "Leland-branded Slidev theme",
+  "private": false,
+  "keywords": ["slidev-theme", "slidev", "leland"],
+  "main": "package.json",
+  "engines": {
+    "slidev": ">=0.48.0"
+  },
+  "slidev": {
+    "colorSchema": ["light"],
+    "highlighter": "shiki",
+    "defaults": {
+      "fonts": {
+        "sans": "Inter",
+        "serif": "Newsreader",
+        "mono": "JetBrains Mono"
+      },
+      "lineNumbers": false
+    },
+    "extends": "@slidev/theme-default"
+  }
+}

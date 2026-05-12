@@ -1,0 +1,10 @@
+{
+  "slug": "welcome",
+  "title": "Welcome",
+  "description": "A quick tour of the presentations workspace.",
+  "mode": "slides",
+  "theme": "leland",
+  "tags": ["intro", "demo"],
+  "createdAt": "2026-05-11T00:00:00.000Z",
+  "updatedAt": "2026-05-11T00:00:00.000Z"
+}

@@ -1,0 +1,147 @@
+:root {
+  --accent: #0f4d3a;
+  --accent-deep: #0a3528;
+  --accent-soft: #e8f0ec;
+  --ink: #0a0a0a;
+  --text: #1f2421;
+  --muted: #6a7370;
+  --line: #e6e6e3;
+  --bg: #fafaf7;
+  --card: #ffffff;
+
+  --font-serif: 'Newsreader', 'Tiempos Text', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 19, 0.04),
+    0 1px 1px rgba(15, 23, 19, 0.03);
+  --shadow-md: 0 6px 18px rgba(15, 23, 19, 0.07),
+    0 2px 4px rgba(15, 23, 19, 0.04);
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: saturate(150%) blur(6px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+.brand-mark {
+  color: var(--accent);
+}
+
+.brand-text {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+
+.topnav {
+  display: flex;
+  gap: 18px;
+  font-size: 14px;
+}
+
+.topnav a {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 56px 32px 96px;
+}
+
+.footer {
+  border-top: 1px solid var(--line);
+  background: var(--ink);
+  color: #c9d0cc;
+  padding: 18px 32px;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Fullscreen reading mode (Doc page) — hide gallery chrome, give the
+   document the full viewport. Triggered by requesting fullscreen on <html>. */
+html:fullscreen .topbar,
+html:fullscreen .footer {
+  display: none;
+}
+
+html:fullscreen .content {
+  max-width: none;
+  padding: 0;
+}
+
+html:fullscreen #app {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+/* Shared headline style */
+.headline {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--ink);
+}

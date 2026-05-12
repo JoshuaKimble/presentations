@@ -1,0 +1,15 @@
+{
+  "slug": "frontend-encapsulation-hooks",
+  "title": "Frontend Pattern: Encapsulation via Custom Hooks",
+  "description": "How we structure state and logic in React components across the monorepo.",
+  "mode": "slides",
+  "theme": "leland",
+  "tags": [
+    "frontend",
+    "react",
+    "patterns",
+    "architecture"
+  ],
+  "createdAt": "2026-05-12T04:48:59.377Z",
+  "updatedAt": "2026-05-12T04:48:59.377Z"
+}
